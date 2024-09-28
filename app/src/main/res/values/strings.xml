@@ -20,4 +20,5 @@
     <string name="service_deleted">El servicio ha sido borrado exitosamente</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>
+    <string name="service_title">Servicio</string>
 </resources>

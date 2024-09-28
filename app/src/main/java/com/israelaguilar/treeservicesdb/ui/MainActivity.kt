@@ -2,16 +2,20 @@ package com.israelaguilar.treeservicesdb.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.israelaguilar.treeservicesdb.R
 import com.israelaguilar.treeservicesdb.application.TreeServicesDBApp
 import com.israelaguilar.treeservicesdb.data.TreeServiceRepository
 import com.israelaguilar.treeservicesdb.data.db.model.TreeServiceEntity
 import com.israelaguilar.treeservicesdb.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         treeServiceAdapter = TreeServiceAdapter{ selectedTreeService ->
 
             val dialog = TreeServiceDialog(newTreeService = false, treeService = selectedTreeService, updateUI = {
-                upateUI()
+                updateUI()
             }, message = { text ->
                 message(text)
             })
@@ -53,9 +57,35 @@ class MainActivity : AppCompatActivity() {
         val dialog = TreeServiceDialog(updateUI = {
             updateUI()
         }, message = { text ->
-            messgae(text)
+            message(text)
         })
 
-        dialog.show(supportFragmentManager, dialog1)
+        dialog.show(supportFragmentManager, "dialog1")
+    }
+
+    private fun message(text: String){
+        Toast.makeText(
+            this,
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
+
+        Snackbar.make(
+            binding.cl,
+            text,
+            Snackbar.LENGTH_SHORT
+        )
+            .setTextColor(getColor(R.color.white))
+            .setBackgroundTint(getColor(R.color.snackbar))
+    }
+
+    private fun updateUI(){
+        lifecycleScope.launch {
+            treeServices = repository.getAllTreeServices()
+            binding.tvSinRegistros.visibility =
+                if(treeServices.isNotEmpty()) View.INVISIBLE else View.VISIBLE
+
+            treeServiceAdapter.updateList(treeServices)
+        }
     }
 }
