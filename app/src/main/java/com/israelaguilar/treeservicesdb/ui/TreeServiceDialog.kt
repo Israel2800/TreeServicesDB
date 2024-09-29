@@ -5,7 +5,13 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AbsListView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
@@ -23,15 +29,14 @@ import java.io.IOException
 class TreeServiceDialog(
     private val newTreeService: Boolean = true,
     private val treeService: TreeServiceEntity = TreeServiceEntity(
-        // El title se convertirá en un dropdown list
         serviceTitle = "",
         serviceDescription = "",
-        price = 0,
-        availabilty = ""
+        price = "",
+        duration = ""
     ),
     private val updateUI: () -> Unit,
     private val message: (String) -> Unit
-): DialogFragment() {
+) : DialogFragment() {
 
     private var _binding: TreeServiceDialogBinding? = null
     private val binding get() = _binding!!
@@ -48,158 +53,194 @@ class TreeServiceDialog(
 
         builder = AlertDialog.Builder(requireContext())
 
-        // Se establecen en los text input edit text los valores del objeto tree service
+        // Establecer los valores iniciales en los campos de texto
+        // Configurar el AutoCompleteTextView con los datos del array
+        val serviceTitles = resources.getStringArray(R.array.service_titles).toMutableList()
 
-        binding.apply {
-            tietServiceTitle.setText(treeService.serviceTitle)
-            tietServiceDescription.setText(treeService.serviceDescription)
-            tietPrice.setText(treeService.price)
-            tietAvailability.setText(treeService.availabilty)
+        // Crea un ArrayAdapter personalizado
+        val adapter = object : ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            serviceTitles
+        ) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = super.getDropDownView(position, convertView, parent) as TextView
+                // Si la posición es 0, oculta el elemento del spinner
+                if (position == 0) {
+                    view.visibility = View.INVISIBLE
+                    view.layoutParams = AbsListView.LayoutParams(0, 0)
+                } else {
+                    view.visibility = View.VISIBLE
+                    view.layoutParams = AbsListView.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                }
+                return view
+            }
+        }.also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        dialog = if(newTreeService)
-            buildDialog(getString(R.string.save), getString(R.string.cancel),{
-                // Acción de guardar
-                // Aquí obetenemos los textos ingresados y se los asignamos a nuestro objeto treeService
+        binding.spinnerServiceTitle.adapter = adapter
 
+
+        // Establece el valor del spinner basado en el servicio existente
+        if (treeService.serviceTitle.isNotEmpty()) {
+            val defaultIndex = serviceTitles.indexOf(treeService.serviceTitle)
+            if (defaultIndex != -1) {
+                binding.spinnerServiceTitle.setSelection(defaultIndex)
+            }
+        }
+
+
+        binding.apply {
+            // Configura otros campos de texto
+            tietServiceDescription.setText(treeService.serviceDescription)
+            tietPrice.setText(treeService.price)
+            tietDuration.setText(treeService.duration)
+
+            // Asigna el adaptador al spinner
+            //spinnerServiceTitle.setAdapter(adapter)
+
+        }
+
+
+        dialog = if (newTreeService)
+            buildDialog(getString(R.string.save), getString(R.string.cancel), {
+                // Acción de guardar
                 binding.apply {
                     treeService.apply {
-                        serviceTitle = tietServiceTitle.text.toString()
+                        serviceTitle = spinnerServiceTitle.selectedItem.toString()
                         serviceDescription = tietServiceDescription.text.toString()
-                        price = tietPrice.text.toString().toIntOrNull() ?: 0
-                        availabilty = tietAvailability.text.toString()
+                        price = getString(R.string.currency_symbol) + tietPrice.text.toString()
+                        duration = tietDuration.text.toString()
                     }
                 }
 
                 try {
-                    lifecycleScope.launch(Dispatchers.IO){
-                        val result = async{
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val result = async {
                             repository.insertTreeService(treeService)
                         }
 
-                        // Con esto nos esperamos a que se termine esta acción antes de ejecutar lo siguiente
                         result.await()
 
-                        // Con esto mandamos la ejecución de message y updateUI al hilo principal
-                        withContext(Dispatchers.Main){
+                        withContext(Dispatchers.Main) {
                             message(getString(R.string.save_message))
-
                             updateUI()
+
                         }
                     }
-                }catch (e: IOException){
+                } catch (e: IOException) {
                     message(getString(R.string.save_error_message))
                 }
             }, {
                 // Acción de cancelar
             })
         else
-            buildDialog("Actualizar", "Borrar", {
+            buildDialog(getString(R.string.update), getString(R.string.delete), {
                 // Acción de actualizar
-                // Aquí obetenemos los textos ingresados y se los asignamos a nuestro objeto treeService
                 binding.apply {
                     treeService.apply {
-                        serviceTitle = tietServiceTitle.text.toString()
+                        serviceTitle = spinnerServiceTitle.selectedItem.toString()
                         serviceDescription = tietServiceDescription.text.toString()
-                        price = tietPrice.text.toString().toIntOrNull() ?: 0
-                        availabilty = tietAvailability.text.toString()
+                        price = tietPrice.text.toString()
+                        duration = tietDuration.text.toString()
                     }
                 }
 
                 try {
-                    lifecycleScope.launch(Dispatchers.IO){
+                    lifecycleScope.launch(Dispatchers.IO) {
                         val result = async {
                             repository.updateTreeService(treeService)
                         }
                         result.await()
 
-                        withContext(Dispatchers.Main){
-                            message(getString(R.string.service_updated))
-
+                        withContext(Dispatchers.Main) {
+                            message(getString(R.string.update_message))
                             updateUI()
                         }
                     }
-                }catch (e: IOException){
+                } catch (e: IOException) {
                     message(getString(R.string.service_update_error_message))
                 }
 
-
-            },{
+            }, {
                 // Acción de borrar
-                // Almacenamos el contexto en una variable antes de mandar llamar el diálogo nuevo
-
                 val context = requireContext()
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle((getString(R.string.confirm)))
+                    .setTitle(getString(R.string.confirm))
                     .setMessage(getString(R.string.confirm_message, treeService.serviceTitle))
-                    .setPositiveButton(getString(R.string.ok)){ _, _ ->
+                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
                         try {
-                            lifecycleScope.launch(Dispatchers.IO){
+                            lifecycleScope.launch(Dispatchers.IO) {
                                 val result = async {
                                     repository.deleteTreeService(treeService)
                                 }
                                 result.await()
 
-                                withContext(Dispatchers.Main){
-                                    message(context.getString(R.string.service_deleted))
-
+                                withContext(Dispatchers.Main) {
+                                    message(context.getString(R.string.delete_message))
                                     updateUI()
-
                                 }
                             }
-
-                        }catch (e: IOException){
-                            message(getString(R.string.delete_service_error))
-
+                        } catch (e: IOException) {
+                            message(context.getString(R.string.delete_error_message))
                         }
                     }
-                    .setNegativeButton(getString(R.string.cancel)){ dialog, _->
+                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                         dialog.dismiss()
                     }
                     .create().show()
             })
 
 
+
+
         return dialog
     }
 
-    // Aquí se destruye
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-    // Se llama después de que se muestra el dialog en pantalla
     override fun onStart() {
         super.onStart()
 
-        // Debido a que la clase dialog no me permite referenciarme a sus botones
         val alertDialog = dialog as AlertDialog
-
         saveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-
         saveButton?.isEnabled = false
 
         binding.apply {
             setupTextWatcher(
-                tietServiceTitle,
+                spinnerServiceTitle,
                 tietServiceDescription,
                 tietPrice,
-                tietAvailability
+                tietDuration
             )
         }
-
     }
 
-    private fun validateFields(): Boolean
-        = binding.tietServiceTitle.text.toString().isNotEmpty() &&
-            binding.tietServiceDescription.text.toString().isNotEmpty() &&
-            binding.tietPrice.text.toString().isNotEmpty() &&
-            binding.tietAvailability.text.toString().isNotEmpty()
+    private fun validateFields(): Boolean {
 
-    private fun setupTextWatcher(vararg textFields: TextInputEditText){
-        val textWatcher = object: TextWatcher{
+        val isSpinnerItemSelected = binding.spinnerServiceTitle.selectedItemPosition != 0
+
+        return isSpinnerItemSelected &&
+                binding.tietServiceDescription.text.toString().isNotEmpty() &&
+                binding.tietPrice.text.toString().isNotEmpty() &&
+                binding.tietDuration.text.toString().isNotEmpty()
+    }
+
+
+    private fun setupTextWatcher(vararg textFields: View) {
+        val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -207,11 +248,33 @@ class TreeServiceDialog(
             override fun afterTextChanged(s: Editable?) {
                 saveButton?.isEnabled = validateFields()
             }
-
         }
 
         textFields.forEach { textField ->
-            textField.addTextChangedListener(textWatcher)
+            if (textField is TextInputEditText) {
+                textField.addTextChangedListener(textWatcher)
+            } else if (textField is AutoCompleteTextView) {
+                textField.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        saveButton?.isEnabled = validateFields()
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {}
+                })
+            }
         }
     }
 
@@ -223,11 +286,10 @@ class TreeServiceDialog(
     ): Dialog =
         builder.setView(binding.root)
             .setTitle(R.string.treeService)
-            .setPositiveButton(btn1Text){_, _ ->
+            .setPositiveButton(btn1Text) { _, _ ->
                 positiveButton()
-            } .setNegativeButton(btn2Text){_, _ ->
+            }.setNegativeButton(btn2Text) { _, _ ->
                 negativeButton()
             }
             .create()
-
 }

@@ -1,24 +1,41 @@
 <resources>
     <string name="app_name">TreeServices DB</string>
-    <string name="no_data">¡No hay registros!</string>
-    <string name="add_element">Agregrar elemento</string>
-    <string name="image">Imagen</string>
-    <string name="tree_service">Servicio</string>
-    <string name="description">Descripción</string>
-    <string name="price">Precio</string>
-    <string name="availability">Disponibilidad</string>
+    <string name="no_data">No records found!</string>
+    <string name="add_element">Add element</string>
+    <string name="image">Image</string>
+    <string name="tree_service">Service</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
     <string name="header">Header</string>
-    <string name="treeService">Tree Service</string>
-    <string name="save_message">Servicio de árbol guardado exitosamente</string>
-    <string name="save_error_message">Error al guardar el servicio</string>
-    <string name="service_update_error_message">Error al actualizar el servicio</string>
-    <string name="service_updated">Servicio actualizado exitosamente</string>
-    <string name="confirm_message">¿Realmente desea eliminar el sevicio, %1$s?</string>
-    <string name="ok">Aceptar</string>
-    <string name="confirm">Confirmación</string>
-    <string name="delete_service_error">Error al borrar el servicio</string>
-    <string name="service_deleted">El servicio ha sido borrado exitosamente</string>
-    <string name="cancel">Cancelar</string>
-    <string name="save">Guardar</string>
-    <string name="service_title">Servicio</string>
+    <string name="treeService">Tree Services</string>
+    <string name="save_message">The tree service has been successfully saved</string>
+    <string name="save_error_message">Error while saving the service</string>
+    <string name="service_update_error_message">Error while updating the service</string>
+    <string name="service_updated">Service updated successfully</string>
+    <string name="confirm_message">Are you sure you want to delete the service, %1$s?</string>
+    <string name="ok">OK</string>
+    <string name="confirm">Confirmation</string>
+    <string name="delete_service_error">Error deleting the service</string>
+    <string name="service_deleted">The service has been successfully deleted</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="service_title">Service</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="service_selection">Select a service</string>
+    <string name="duration">Duration</string>
+    <string name="currency_symbol">$</string>
+    <string name="delete_message">The tree service has been successfully deleted</string>
+    <string name="delete_error_message">Error while deleting the service</string>
+    <string name="update_message">The tree service has been successfully updated</string>
+
+    <string-array name="service_titles">
+        <item>Select a service</item>
+        <item>Tree Trimming</item>
+        <item>Tree Removal</item>
+        <item>Land Clearing</item>
+        <item>Stump Grinding</item>
+        <item>Planting</item>
+    </string-array>
+
 </resources>

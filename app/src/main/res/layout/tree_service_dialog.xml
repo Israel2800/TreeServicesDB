@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -8,38 +9,44 @@
     <ImageView
         android:id="@+id/ivHeader"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/layout_height_header"
+        android:layout_marginTop="@dimen/margin_top_dialog"
         android:contentDescription="@string/header"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/header" />
+        app:srcCompat="@drawable/treeservice" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilServiceTitle"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_top_dialog"
+        android:layout_marginEnd="@dimen/margin_end_dialog"
+        android:layout_marginBottom="@dimen/margin_bottom_dialog"
         android:hint="@string/tree_service"
         app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusTopStart="16dp"
-        app:startIconDrawable="@drawable/ic_title">
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius"
+        app:startIconDrawable="@drawable/service">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietServiceTitle"
+
+        <Spinner
+            android:id="@+id/spinnerServiceTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/spinner_border"
+            android:hint="@string/service_selection"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:maxLines="1">
+            android:maxLines="1"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
 
-        </com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,16 +56,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_start"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/margin_top_dialog"
+        android:layout_marginEnd="@dimen/margin_end_dialog"
+        android:layout_marginBottom="@dimen/margin_bottom_dialog"
         android:hint="@string/description"
         app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusTopStart="16dp"
-        app:startIconDrawable="@drawable/ic_genre">
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius"
+        app:startIconDrawable="@drawable/description">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietServiceDescription"
@@ -78,16 +85,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/margin_top_dialog"
+        android:layout_marginEnd="@dimen/margin_end_dialog"
+        android:layout_marginBottom="@dimen/margin_bottom_dialog"
         android:hint="@string/price"
         app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusTopStart="16dp"
-        app:startIconDrawable="@drawable/ic_developer">
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius"
+        app:startIconDrawable="@drawable/price">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietPrice"
@@ -102,24 +109,24 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilAvailability"
+        android:id="@+id/tilDuration"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:hint="@string/availability"
+        android:layout_marginStart="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_top_dialog"
+        android:layout_marginEnd="@dimen/margin_end_dialog"
+        android:layout_marginBottom="@dimen/margin_bottom_dialog"
+        android:hint="@string/duration"
         app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusTopStart="16dp"
-        app:startIconDrawable="@drawable/ic_title">
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius"
+        app:startIconDrawable="@drawable/clock">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietAvailability"
+            android:id="@+id/tietDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"

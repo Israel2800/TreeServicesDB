@@ -11,9 +11,9 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:elevation="32dp"
-        app:cardCornerRadius="8dp"
+        android:layout_margin="@dimen/card_margin"
+        android:elevation="@dimen/elevation_margin"
+        app:cardCornerRadius="@dimen/corner_radius_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,84 +24,72 @@
 
             <ImageView
                 android:id="@+id/ivIcon"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_image"
                 android:contentDescription="@string/image"
-                android:outlineProvider="bounds"
-                android:padding="4dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/gamepad"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/treeservice"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvServiceTitle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/width_element"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:textColor="#FF0000"
-                android:textSize="18sp"
+                android:layout_marginStart="@dimen/margin_start_element"
+                android:layout_marginTop="@dimen/margin_top_element"
+                android:layout_marginEnd="@dimen/margin_end_element"
+                android:text="@string/service_title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/service_title_element"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/ivIcon"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.16"
-                tools:text="@string/service_title" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivIcon" />
 
             <TextView
                 android:id="@+id/tvServiceDescription"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/width_element"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/margin_start_element"
+                android:layout_marginTop="@dimen/margin_top_element"
+                android:layout_marginEnd="@dimen/margin_end_element"
+                android:text="@string/description"
+                android:textSize="@dimen/general_size_element"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/ivIcon"
-                app:layout_constraintTop_toBottomOf="@id/tvServiceTitle"
-                app:layout_constraintVertical_bias="0.2"
-                tools:text="@string/description" />
-
-            <TextView
-                android:id="@+id/tvAvailability"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/ivIcon"
-                app:layout_constraintTop_toBottomOf="@id/tvServiceDescription"
-                app:layout_constraintVertical_bias="0.2"
-                tools:text="@string/availability" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvServiceTitle" />
 
             <TextView
                 android:id="@+id/tvPrice"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/width_element"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="end"
-                android:textSize="16sp"
-                android:textStyle="italic"
+                android:layout_marginStart="@dimen/margin_start_element"
+                android:layout_marginTop="@dimen/margin_top_element"
+                android:layout_marginEnd="@dimen/margin_end_element"
+                android:text="@string/duration"
+                android:textSize="@dimen/general_size_element"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvServiceDescription" />
+
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="@dimen/width_element"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start_element"
+                android:layout_marginTop="@dimen/margin_top_element"
+                android:layout_marginEnd="@dimen/margin_end_element"
+                android:layout_marginBottom="@dimen/margin_bottom_element"
+                android:textColor="@color/black"
+                android:textSize="@dimen/general_size_element"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivIcon"
-                app:layout_constraintTop_toBottomOf="@id/tvAvailability"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPrice"
                 tools:text="@string/price" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

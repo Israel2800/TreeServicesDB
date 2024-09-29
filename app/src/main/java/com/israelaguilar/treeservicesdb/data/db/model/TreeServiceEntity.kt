@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.israelaguilar.treeservicesdb.util.Constants
 
-@Entity(tableName = Constants.DATABASE_NAME)
+@Entity(tableName = Constants.DATABASE_TREE_SERVICE_TABLE)
 data class TreeServiceEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tree_service_id")
@@ -15,7 +15,10 @@ data class TreeServiceEntity(
     @ColumnInfo(name = "tree_service_description")
     var serviceDescription: String,
     @ColumnInfo(name = "tree_service_price")
-    var price: Int,
-    @ColumnInfo(name = "tree_service_availability")
-    var availabilty: String
+    var price: String,
+    @ColumnInfo(name = "tree_service_duration")
+    var duration: String
+    /*@ColumnInfo(name = "image")
+    var image: Int*/
+
 )

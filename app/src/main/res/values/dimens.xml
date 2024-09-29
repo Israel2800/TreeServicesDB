@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_start">16dp</dimen>
+    <dimen name="margin_bottom_main">16dp</dimen>
+    <dimen name="margin_end">16dp</dimen>
+    <dimen name="no_data_msg">25sp</dimen>
+    <dimen name="layout_height_header">120dp</dimen>
+    <dimen name="margin_top_dialog">8dp</dimen>
+    <dimen name="margin_bottom_dialog">8dp</dimen>
+    <dimen name="margin_end_dialog">16dp</dimen>
+    <dimen name="corner_radius">16dp</dimen>
+    <dimen name="card_margin">4dp</dimen>
+    <dimen name="elevation_margin">8dp</dimen>
+    <dimen name="corner_radius_margin">8dp</dimen>
+    <dimen name="height_image">150dp</dimen>
+    <dimen name="margin_top_element">8dp</dimen>
+    <dimen name="width_element">0dp</dimen>
+    <dimen name="margin_start_element">16dp</dimen>
+    <dimen name="margin_end_element">16dp</dimen>
+    <dimen name="service_title_element">18sp</dimen>
+    <dimen name="general_size_element">14sp</dimen>
+    <dimen name="margin_bottom_element">8dp</dimen>
 </resources>

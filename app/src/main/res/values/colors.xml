@@ -2,5 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="snackbar">#9E1734</color>
+    <color name="bg_white">#EEEEEE</color>
+    <color name="snackbar">#22489D</color>
+    <color name="bg_green">#067167</color>
+    <color name="bg_blue">#22489D</color>
 </resources>

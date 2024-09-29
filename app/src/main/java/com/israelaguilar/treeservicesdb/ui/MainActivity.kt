@@ -19,6 +19,11 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    companion object{
+        const val DIALOG_ADD_TAG = "dialog1"
+        const val DIALOG_EDIT_TAG = "dialog2"
+    }
+
     private lateinit var binding: ActivityMainBinding
     private var treeServices: MutableList<TreeServiceEntity> = mutableListOf()
     private lateinit var repository: TreeServiceRepository
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 message(text)
             })
 
-            dialog.show(supportFragmentManager, "dialog2")
+            dialog.show(supportFragmentManager, DIALOG_EDIT_TAG)
         }
 
         binding.rvTreeServices.apply {
@@ -60,16 +65,10 @@ class MainActivity : AppCompatActivity() {
             message(text)
         })
 
-        dialog.show(supportFragmentManager, "dialog1")
+        dialog.show(supportFragmentManager, DIALOG_ADD_TAG)
     }
 
     private fun message(text: String){
-        Toast.makeText(
-            this,
-            text,
-            Toast.LENGTH_SHORT
-        ).show()
-
         Snackbar.make(
             binding.cl,
             text,
@@ -77,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         )
             .setTextColor(getColor(R.color.white))
             .setBackgroundTint(getColor(R.color.snackbar))
+            .show()
     }
 
     private fun updateUI(){
